@@ -21,12 +21,10 @@ use App\Http\Controllers\Admin\RoleController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/n', function () {
-    return view('admin.layouts.master1');
-});
-Route::get('/', function () {
-    return  redirect()->route('admin.dashboard');
-});
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 

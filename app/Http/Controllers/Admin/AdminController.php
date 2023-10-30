@@ -21,16 +21,6 @@ class AdminController extends Controller
 
 
     public function dashboard(Request $request) {
-        $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
-                'phone_number' => 'required',
-
-            ]);
-        if($validator->fails()){
-            return response()->json(['message'=>$validator->messages()->first(),'success' => false]);
-
-        }
-
 
         return view('admin/dashboard');
     }
@@ -45,7 +35,7 @@ class AdminController extends Controller
         if($request->hasFile('profile'))
         {
             $img = Str::random(20).$request->file('profile')->getClientOriginalName();
-            $input['profile'] = $img;
+            $input['profile'] = 'documents/profile/'.$img;
             $request->profile->move(public_path("documents/profile/"), $img);
         }
 

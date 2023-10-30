@@ -4,9 +4,8 @@
 @endsection
 
 @section('body-section')
-    {{-- <section class="input-validation dashboard-analytics"> --}}
-        <div class="container-xxl flex-grow-1 container-p-y">
-          <div class="row">
+    <section class="input-validation dashboard-analytics">
+        <div class="row">
             <div class="col-md-12">
                 <div class="card">
 
@@ -75,8 +74,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    {{-- </section> --}}
+    </section>
 @endsection
 
 

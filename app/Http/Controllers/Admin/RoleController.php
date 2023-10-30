@@ -8,7 +8,6 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Traits\PermissionTrait;
 use Illuminate\Support\Str;
-use Validator;
 
 use App\Models\User;
 use DB;
@@ -31,10 +30,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::withCount('users')->orderBy('id','ASC')->get();
-        $permission_type = Permission::groupBy('type')->pluck('type');
-        $permission =  Permission::get();
-         return view('admin.roles.index',compact('roles','permission_type','permission'));
+        $roles = Role::orderBy('id','ASC')->get();
+         return view('admin.roles.index',compact('roles'));
     }
 
     /**
@@ -58,16 +55,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-
-
-       $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return  redirect()->route('roles.index')->with(['message'=>$validator->messages()->first(),'type'=>'error']);
-         }
+         $request->all();
     //    return   ucwords(Str::slug($request->name, ' '));
     //     return Str::slug($request->name, '-');
         $role = Role::create(['name' => $request->input('name'),'display_name'=>ucwords(Str::slug($request->name, ' ')),'slug'=> Str::slug($request->name, '-')]);
@@ -107,13 +100,8 @@ class RoleController extends Controller
         {
            $type[$item->type]  = $item->type;
         }
-        return  response()->json([
-            'role'=>$role,
-            'permission'=>$permission,
-            'rolePermissions'=>$rolePermissions,
-            'type'=>$type
-        ], 200);
-        // return view('admin.roles.edit',compact('role','permission','rolePermissions','type'));
+
+        return view('admin.roles.edit',compact('role','permission','rolePermissions','type'));
     }
 
     /**
@@ -149,7 +137,6 @@ class RoleController extends Controller
         return redirect()->back()
                 ->with(['message'=>'Role Update successfully','type'=>'success']);
     }
-
 
     /**
      * Remove the specified resource from storage.

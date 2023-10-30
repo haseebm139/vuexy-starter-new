@@ -12,11 +12,6 @@ return [
     | based disks are available to your application. Just store away!
     |
     */
-    'uploads' => [
-        'driver' => 'local',
-        'root' => storage_path('app/uploads'),
-    ],
-
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
@@ -77,6 +72,5 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
-
 
 ];

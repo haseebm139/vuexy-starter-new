@@ -5,9 +5,8 @@
 
 @section('body-section')
     <br>
-    {{-- <section id="dashboard-analytics"> --}}
-       <div class="container-xxl flex-grow-1 container-p-y">
-
+    <section id="dashboard-analytics">
+        <div class="container-fluid">
 
             <div class="row">
                 <div class="col-12">
@@ -83,7 +82,7 @@
                 </div>
             </div>
         </div>
-    {{-- </section> --}}
+    </section>
 @endsection
 
 

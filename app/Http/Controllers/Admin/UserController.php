@@ -17,16 +17,15 @@ class UserController extends Controller
     function __construct()
     {
         //  $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','show']]);
-        //  $this->middleware('permission:user-list', ['only' => ['index']]);
-        //  $this->middleware('permission:user-create', ['only' => ['create','store']]);
-        //  $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        //  $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:user-list', ['only' => ['index']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
 
     public function index()
     {
-
-         $data = User::orderBy('id','DESC')->where('type','!=','admin')->where('id','!=',auth()->user()->id)->get();
+        $data = User::orderBy('id','DESC')->where('type','!=','admin')->where('id','!=',auth()->user()->id)->get();
         return view('admin.user.index',compact('data'));
     }
 
@@ -118,8 +117,7 @@ class UserController extends Controller
             $input['profile'] = $img;
             $request->profile->move(public_path("documents/profile"), $img);
         }
-        $user->assignRole($request->input('role_id'));
-        $user = User::find($id);
+         $user = User::find($id);
         $user->update($input);
         return redirect()->back()
                 ->with(['message'=>'User update successfully','type'=>'success']);

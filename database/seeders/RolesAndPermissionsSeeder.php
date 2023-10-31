@@ -108,7 +108,6 @@ class RolesAndPermissionsSeeder extends Seeder
              'remember_token' => NULL,
              'status' => 1,
              'type' => 'admin',
-             'profile' => 'default.png',
              'created_at' => NULL,
              'updated_at' => '2019-11-30 18:24:06',
          ]);
@@ -123,27 +122,38 @@ class RolesAndPermissionsSeeder extends Seeder
 
              'remember_token' => NULL,
              'status' => 1,
-             'type' => 'admin',
-             'profile' => 'default.png',
+             'type' => 'user',
+             'created_at' => NULL,
+             'updated_at' => '2019-11-30 18:24:06',
+         ]);
+         $user->assignRole($role1->name);
+         $user = \App\Models\User::create([
+            'name' => 'User',
+             'email' => 'user1@gmail.com',
+             'email_verified_at' => '2019-11-30 18:24:06',
+             'password' => bcrypt('12345'),
+
+             'remember_token' => NULL,
+             'status' => 1,
+             'type' => 'user',
+             'created_at' => NULL,
+             'updated_at' => '2019-11-30 18:24:06',
+         ]);
+         $user->assignRole($role1->name);
+         $user = \App\Models\User::create([
+            'name' => 'User',
+             'email' => 'user2@gmail.com',
+             'email_verified_at' => '2019-11-30 18:24:06',
+             'password' => bcrypt('12345'),
+
+             'remember_token' => NULL,
+             'status' => 1,
+             'type' => 'user',
              'created_at' => NULL,
              'updated_at' => '2019-11-30 18:24:06',
          ]);
          $user->assignRole($role1->name);
 
-         $user = \App\Models\User::create([
-            'name' => 'Service Provider',
-             'email' => 'serviceprovider@gmail.com',
-             'email_verified_at' => '2019-11-30 18:24:06',
-             'password' => bcrypt('12345'),
 
-             'remember_token' => NULL,
-
-             'status' => 1,
-             'type' => 'admin',
-             'profile' => 'default.png',
-             'created_at' => NULL,
-             'updated_at' => '2019-11-30 18:24:06',
-         ]);
-         $user->assignRole($role2->name);
     }
 }

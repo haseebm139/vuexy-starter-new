@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 
-    <title>Dashboard </title>
+    <title>Dashboard @yield('title') </title>
     <link rel="apple-touch-icon" href="{{ asset('app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('app-assets/images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
@@ -169,7 +169,6 @@
                     </ul>
                 </li>
                 @can('role-list')
-
                     <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title"
                                 data-i18n="User">Roles Management</span></a>
                         <ul class="menu-content">
@@ -185,7 +184,7 @@
                         </ul>
                     </li>
                 @endcan
-                <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title"
+                {{-- <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title"
                             data-i18n="User">User Pattern</span></a>
                     <ul class="menu-content">
                         <li class="@if (Route::currentRouteName() == 'userspattern.index') active @endif"><a
@@ -195,6 +194,34 @@
                         <li class="@if (Route::currentRouteName() == 'userspattern.create') active @endif"><a
                                 href="{{ route('userspattern.create') }}"><i class="feather icon-circle"></i><span
                                     class="menu-item" data-i18n="View">Create User</span></a>
+                        </li>
+
+                    </ul>
+                </li> --}}
+
+                <li class="@if (Route::currentRouteName() == 'category.index') active @endif nav-item"><a
+                        href="{{ route('category.index') }}"><i class="feather icon-user"></i><span
+                            class="menu-title" data-i18n="User">Meal Category</span></a>
+
+                </li>
+
+                <li class="@if (Route::currentRouteName() == 'product.index') active @endif nav-item"><a
+                    href="{{ route('product.index') }}"><i class="feather icon-user"></i><span
+                        class="menu-title" data-i18n="User">Meal Product</span></a>
+
+            </li>
+
+
+                <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title"
+                            data-i18n="User">Item Menu</span></a>
+                    <ul class="menu-content">
+                        <li class="@if (Route::currentRouteName() == 'item-menu.index') active @endif"><a
+                                href="{{ route('items-menu.index') }}"><i class="feather icon-circle"></i><span
+                                    class="menu-item" data-i18n="List">List</span></a>
+                        </li>
+                        <li class="@if (Route::currentRouteName() == 'items-menu.create') active @endif"><a
+                                href="{{ route('items-menu.create') }}"><i class="feather icon-circle"></i><span
+                                    class="menu-item" data-i18n="View">Create Item Menu</span></a>
                         </li>
 
                     </ul>

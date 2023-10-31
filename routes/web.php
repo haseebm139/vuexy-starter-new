@@ -6,6 +6,11 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserPatternController;
 
+/* Restaurant Controller  */
+use App\Http\Controllers\Restaurant\CategoryController;
+use App\Http\Controllers\Restaurant\ItemMenuController;
+use App\Http\Controllers\Restaurant\ProductController;
+
 
 // For User
 use App\Http\Controllers\User\UserController as UController;
@@ -52,6 +57,13 @@ Route::controller(\App\Http\Controllers\AuthController::class)->group(function (
 
 Route::middleware(['auth','can:isAdmin'])->prefix('admin')->group(function()
 {
+    Route::resource('category', CategoryController::class);
+    Route::get('category-change-status', [CategoryController::class,'change_status'])->name('category.change.status');
+
+    Route::resource('product', ProductController::class);
+    Route::get('product-change-status', [ProductController::class,'change_status'])->name('product.change.status');
+
+    Route::resource('items-menu', ItemMenuController::class);
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('userspattern', UserPatternController::class);

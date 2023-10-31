@@ -30,31 +30,40 @@ class AuthController extends BaseController
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'confirm_password' => 'required|same:password',
         ]);
 
         if($validator->fails()){
             return $this->sendError($validator->errors()->first());
 
         }
+        try {
+            if($request->hasFile('profile'))
+            {
+                $img = Str::random(20).$request->file('profile')->getClientOriginalName();
+                $input['profile'] = $img;
+                $request->profile->move(public_path("documents/profile"), $img);
+            }else{
+                $input['profile'] = 'documents/profile/default.png';
+            }
+            $input = $request->except(['confirm_password','password','first_name','last_name'],$request->all());
+            $first_name = $request->first_name;
+            $last_name = $request->last_name;
+            $input['name'] =   $first_name .' '.$last_name;
+            $input['password'] = Hash::make($request->password);
+            $user = User::create($input);
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['name'] =  Str::upper($user->name);
 
-        if($request->hasFile('profile'))
-        {
-            $img = Str::random(20).$request->file('profile')->getClientOriginalName();
-            $input['profile'] = $img;
-            $request->profile->move(public_path("documents/profile"), $img);
-        }else{
-            $input['profile'] = 'default.png';
+            return $this->sendResponse($success, 'User register successfully.');
+            # code...
+        } catch (\Throwable $e) {
+            return $this->sendError('SomeThing went wrong.');
         }
-        $input = $request->except(['confirm_password','password'],$request->all());
-        $input['password'] = Hash::make($request->password);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
-        $success['name'] =  $user->name;
-        return $this->sendResponse($success, 'User register successfully.');
+
     }
 
 
@@ -65,15 +74,59 @@ class AuthController extends BaseController
      */
     public function login(Request $request)
     {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-            $success['name'] =  $user->name;
+        try {
+            //code...
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+                $user = Auth::user();
+                $success['token'] =  $user->createToken('MyApp')->accessToken;
 
-            return $this->sendResponse($success, 'User login successfully.');
+                $success['name'] =  Str::upper($user->name) ;
+
+                return $this->sendResponse($success, 'User login successfully.');
+            }
+            else{
+                return $this->sendError('Unauthorized.');
+            }
+        } catch (\Throwable $th) {
+            return $this->sendError('SomeThing went wrong.');
         }
-        else{
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+    }
+
+     /**
+     * Update Profile api
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function updateProfile(Request $request){
+
+        try {
+            $input =[];
+            $user = User::find(auth()->id());
+            if ($request->name) {
+                $input['name'] = $request->name;
+            }if ($request->phone_number) {
+                $input['phone_number'] = $request->phone_number;
+            }if ($request->lat) {
+                $input['lat'] = $request->lat;
+            }if ($request->long) {
+                $input['long'] = $request->long;
+            }if ($request->address) {
+                $input['address'] = $request->address;
+            }if ($request->city) {
+                $input['city'] = $request->city;
+            }if ($request->state) {
+                $input['state'] = $request->state;
+            }if ($request->	zipcode) {
+                $input['zipcode'] = $request->zipcode;
+            }if ($request->postal_code) {
+                $input['postal_code'] = $request->postal_code;
+            }if ($request->complete_address) {
+                $input['complete_address'] = $request->complete_address;
+            }
+            return $this->sendResponse($data = [], 'User Update successfully.');
+        } catch (\Throwable $e) {
+            return $this->sendError('SomeThing went wrong.');
         }
     }
 
